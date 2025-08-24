@@ -11,8 +11,8 @@ DEBUG = False
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config('SECRET_KEY', default='your-secret-key-here-change-in-production')
 
-# Allowed hosts for production
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1').split(',')
+# Allowed hosts for production (including Render)
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1,.onrender.com').split(',')
 
 # Database configuration for production
 DATABASES = {
@@ -113,3 +113,20 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 CONN_MAX_AGE = 60
 DATA_UPLOAD_MAX_MEMORY_SIZE = 5242880  # 5MB
 FILE_UPLOAD_MAX_MEMORY_SIZE = 5242880  # 5MB
+
+# Render specific settings
+if 'RENDER' in os.environ:
+    # Render environment variables
+    ALLOWED_HOSTS = ['.onrender.com', 'localhost', '127.0.0.1']
+    
+    # Use environment variables for database (if using external database)
+    # DATABASES = {
+    #     'default': {
+    #         'ENGINE': 'django.db.backends.postgresql',
+    #         'NAME': config('DB_NAME'),
+    #         'USER': config('DB_USER'),
+    #         'PASSWORD': config('DB_PASSWORD'),
+    #         'HOST': config('DB_HOST'),
+    #         'PORT': config('DB_PORT', default='5432'),
+    #     }
+    # }
