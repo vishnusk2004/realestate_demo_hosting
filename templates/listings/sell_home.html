@@ -1,0 +1,252 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Sell Your Home - RealtyPro{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="buy-hero">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <h1 class="display-4 fw-bold mb-4 text-white">Sell Your Home</h1>
+                <p class="lead mb-5 text-white">Get the best value for your property with our expert selling services</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Property Evaluation Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10 text-center">
+                <h2 class="display-5 fw-bold mb-4">Get Your Property Evaluation</h2>
+                <p class="lead mb-5">Enter your property details below to receive a free market analysis and estimated value</p>
+                
+                <!-- Property Evaluation Form -->
+                <div class="enhanced-search">
+                    <form method="POST" action="{% url 'listings:sell_home' %}">
+                        {% csrf_token %}
+                        <div class="row g-4 align-items-end">
+                            <div class="col-lg-3 col-md-6">
+                                <label class="form-label">Property Type</label>
+                                <select name="property_type" class="form-select" required>
+                                    <option value="">Select Property Type</option>
+                                    <option value="house">Single Family Home</option>
+                                    <option value="apartment">Apartment</option>
+                                    <option value="condo">Condominium</option>
+                                    <option value="townhouse">Townhouse</option>
+                                    <option value="land">Land</option>
+                                    <option value="commercial">Commercial</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-3 col-md-6">
+                                <label class="form-label">Property Address</label>
+                                <input type="text" name="property_address" class="form-control" placeholder="Enter your property address" required>
+                            </div>
+                            <div class="col-lg-2 col-md-6">
+                                <label class="form-label">Bedrooms</label>
+                                <select name="bedrooms" class="form-select">
+                                    <option value="">Any</option>
+                                    <option value="1">1 Bedroom</option>
+                                    <option value="2">2 Bedrooms</option>
+                                    <option value="3">3 Bedrooms</option>
+                                    <option value="4">4 Bedrooms</option>
+                                    <option value="5">5+ Bedrooms</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-2 col-md-6">
+                                <label class="form-label">Square Feet</label>
+                                <input type="number" name="square_feet" class="form-control" placeholder="Approx. sq ft">
+                            </div>
+                            <div class="col-lg-2 col-md-12">
+                                <label class="form-label">&nbsp;</label>
+                                <button type="submit" class="btn btn-primary w-100">
+                                    <i class="fas fa-calculator me-2"></i>Get Value
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Services Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center mb-5">
+                <h2 class="display-5 fw-bold text-primary mb-3">Why Choose RealtyPro?</h2>
+                <p class="lead text-muted">We help you maximize your home's value and sell it quickly</p>
+            </div>
+        </div>
+        
+        <div class="row g-4 mb-5">
+            <div class="col-lg-4 col-md-6">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3 class="h5 fw-bold mb-3">Market Analysis</h3>
+                    <p class="text-muted">Get a comprehensive market analysis to determine the optimal listing price for your property.</p>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-paint-brush"></i>
+                    </div>
+                    <h3 class="h5 fw-bold mb-3">Professional Staging</h3>
+                    <p class="text-muted">Our staging experts will help you showcase your home's best features to attract more buyers.</p>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-camera"></i>
+                    </div>
+                    <h3 class="h5 fw-bold mb-3">Professional Photography</h3>
+                    <p class="text-muted">High-quality photos and virtual tours to make your listing stand out online.</p>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-bullhorn"></i>
+                    </div>
+                    <h3 class="h5 fw-bold mb-3">Marketing Strategy</h3>
+                    <p class="text-muted">Comprehensive marketing plan including online listings, social media, and traditional advertising.</p>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <h3 class="h5 fw-bold mb-3">Negotiation Support</h3>
+                    <p class="text-muted">Expert negotiation to help you get the best possible price and terms for your property.</p>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-file-contract"></i>
+                    </div>
+                    <h3 class="h5 fw-bold mb-3">Closing Assistance</h3>
+                    <p class="text-muted">We'll guide you through the entire closing process to ensure a smooth transaction.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Form Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <h2 class="fw-bold text-primary mb-4">Ready to Sell Your Home?</h2>
+                        <p class="text-muted mb-4">Fill out the form below and one of our experienced agents will contact you within 24 hours to discuss your property and create a personalized selling strategy.</p>
+                        
+                        <div class="mb-4">
+                            <h5 class="fw-bold mb-3">What You'll Get:</h5>
+                            <ul class="list-unstyled">
+                                <li class="mb-2"><i class="fas fa-check text-primary me-2"></i>Free property evaluation</li>
+                                <li class="mb-2"><i class="fas fa-check text-primary me-2"></i>Market analysis report</li>
+                                <li class="mb-2"><i class="fas fa-check text-primary me-2"></i>Pricing strategy</li>
+                                <li class="mb-2"><i class="fas fa-check text-primary me-2"></i>Marketing plan</li>
+                                <li class="mb-2"><i class="fas fa-check text-primary me-2"></i>Professional photography</li>
+                                <li class="mb-2"><i class="fas fa-check text-primary me-2"></i>24/7 support</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="d-flex align-items-center mb-3">
+                            <i class="fas fa-phone text-primary me-3 fa-2x"></i>
+                            <div>
+                                <h6 class="mb-0">Call Us Directly</h6>
+                                <p class="text-muted mb-0">(555) 123-4567</p>
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-envelope text-primary me-3 fa-2x"></i>
+                            <div>
+                                <h6 class="mb-0">Email Us</h6>
+                                <p class="text-muted mb-0">info@realtypro.com</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-6">
+                        <div class="contact-form">
+                            <h3 class="h5 fw-bold mb-4">Get Your Free Property Evaluation</h3>
+                            
+                            <form method="POST">
+                                {% csrf_token %}
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label">First Name *</label>
+                                        {{ form.first_name }}
+                                        {% if form.first_name.errors %}
+                                            <div class="text-danger small">{{ form.first_name.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Last Name *</label>
+                                        {{ form.last_name }}
+                                        {% if form.last_name.errors %}
+                                            <div class="text-danger small">{{ form.last_name.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-12">
+                                        <label class="form-label">Email *</label>
+                                        {{ form.email }}
+                                        {% if form.email.errors %}
+                                            <div class="text-danger small">{{ form.email.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-12">
+                                        <label class="form-label">Phone *</label>
+                                        {{ form.phone }}
+                                        {% if form.phone.errors %}
+                                            <div class="text-danger small">{{ form.phone.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-12">
+                                        <label class="form-label">Property Address</label>
+                                        <input type="text" class="form-control" name="property_address" placeholder="Enter your property address">
+                                    </div>
+                                    <div class="col-12">
+                                        <label class="form-label">Message *</label>
+                                        {{ form.message }}
+                                        {% if form.message.errors %}
+                                            <div class="text-danger small">{{ form.message.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-12">
+                                        <button type="submit" class="btn btn-primary w-100">Get Free Evaluation</button>
+                                    </div>
+                                </div>
+                            </form>
+                            
+                            <p class="text-muted small mt-3">
+                                * Required fields. By submitting this form, you agree to be contacted by our team regarding your property.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

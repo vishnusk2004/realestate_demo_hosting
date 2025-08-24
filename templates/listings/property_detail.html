@@ -1,0 +1,188 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ property.title }} - RealtyPro{% endblock %}
+
+{% block content %}
+<!-- Property Detail Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <!-- Property Images -->
+            <div class="col-lg-8">
+                <div class="position-relative mb-4">
+                    <img src="{{ property.main_image_url }}" alt="{{ property.title }}" class="img-fluid rounded-3" style="width: 100%; height: 400px; object-fit: cover;">
+                    {% if property.is_featured %}
+                        <div class="property-badge">Featured</div>
+                    {% endif %}
+                    {% if property.is_new_listing %}
+                        <div class="property-badge new" style="left: 5rem;">New</div>
+                    {% endif %}
+                </div>
+                
+                <!-- Property Description -->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h2 class="fw-bold mb-3">{{ property.title }}</h2>
+                        <div class="property-price mb-3">{{ property.formatted_price }}</div>
+                        <div class="d-flex align-items-start mb-4">
+                            <i class="fas fa-map-marker-alt text-muted me-2 mt-1"></i>
+                            <div>
+                                <p class="fw-medium mb-0">{{ property.address }}</p>
+                                <p class="text-muted">{{ property.city }}, {{ property.state }} {{ property.zip_code }}</p>
+                            </div>
+                        </div>
+                        <p class="text-muted">{{ property.description }}</p>
+                    </div>
+                </div>
+                
+                <!-- Property Features -->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h3 class="h5 fw-bold mb-3">Property Features</h3>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <ul class="list-unstyled">
+                                    <li class="mb-2"><i class="fas fa-bed text-primary me-2"></i>{{ property.bedrooms }} Bedrooms</li>
+                                    <li class="mb-2"><i class="fas fa-bath text-primary me-2"></i>{{ property.bathrooms }} Bathrooms</li>
+                                    <li class="mb-2"><i class="fas fa-square text-primary me-2"></i>{{ property.square_feet|floatformat:0 }} Square Feet</li>
+                                    {% if property.lot_size %}
+                                    <li class="mb-2"><i class="fas fa-ruler-combined text-primary me-2"></i>{{ property.lot_size }} Acres</li>
+                                    {% endif %}
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <ul class="list-unstyled">
+                                    <li class="mb-2"><i class="fas fa-home text-primary me-2"></i>{{ property.get_property_type_display }}</li>
+                                    {% if property.year_built %}
+                                    <li class="mb-2"><i class="fas fa-calendar text-primary me-2"></i>Built in {{ property.year_built }}</li>
+                                    {% endif %}
+                                    <li class="mb-2"><i class="fas fa-tag text-primary me-2"></i>{{ property.get_status_display }}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Property Info Sidebar -->
+            <div class="col-lg-4">
+                <!-- Contact Agent -->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h3 class="h5 fw-bold mb-3">Contact Agent</h3>
+                        <p class="text-muted mb-3">Interested in this property? Contact our agent for more information.</p>
+                        <a href="{% url 'inquiries:property_inquiry' property.id %}" class="btn btn-primary w-100 mb-2">
+                            <i class="fas fa-phone me-2"></i>Contact Agent
+                        </a>
+                        <a href="tel:5551234567" class="btn btn-outline-primary w-100">
+                            <i class="fas fa-phone me-2"></i>Call (555) 123-4567
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Property Details -->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h3 class="h5 fw-bold mb-3">Property Details</h3>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-muted">Property Type:</span>
+                            <span class="fw-medium">{{ property.get_property_type_display }}</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-muted">Status:</span>
+                            <span class="fw-medium">{{ property.get_status_display }}</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-muted">Price:</span>
+                            <span class="fw-medium">{{ property.formatted_price }}</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-muted">Bedrooms:</span>
+                            <span class="fw-medium">{{ property.bedrooms }}</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-muted">Bathrooms:</span>
+                            <span class="fw-medium">{{ property.bathrooms }}</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-muted">Square Feet:</span>
+                            <span class="fw-medium">{{ property.square_feet|floatformat:0 }}</span>
+                        </div>
+                        {% if property.year_built %}
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-muted">Year Built:</span>
+                            <span class="fw-medium">{{ property.year_built }}</span>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <!-- Mortgage Calculator -->
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="h5 fw-bold mb-3">Monthly Payment Estimate</h3>
+                        <div class="text-center mb-3">
+                            <div class="h4 fw-bold text-primary">${{ property.price|floatformat:0 }}</div>
+                            <small class="text-muted">Estimated monthly payment</small>
+                        </div>
+                        <a href="{% url 'mortgage:mortgage_calculator' %}" class="btn btn-outline-primary w-100">
+                            <i class="fas fa-calculator me-2"></i>Calculate Payment
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Related Properties -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <h2 class="fw-bold text-center mb-5">Similar Properties</h2>
+        <div class="row g-4">
+            {% for related_property in related_properties %}
+            <div class="col-lg-4 col-md-6">
+                <div class="property-card">
+                    <div class="position-relative">
+                        <img src="{{ related_property.main_image_url }}" alt="{{ related_property.title }}" class="img-fluid">
+                        {% if related_property.is_featured %}
+                            <div class="property-badge">Featured</div>
+                        {% endif %}
+                        {% if related_property.is_new_listing %}
+                            <div class="property-badge new" style="left: 5rem;">New</div>
+                        {% endif %}
+                        <div class="position-absolute bottom-0 start-0 m-2">
+                            <span class="badge bg-white text-dark">{{ related_property.get_property_type_display }}</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="property-price">{{ related_property.formatted_price }}</h3>
+                        <div class="d-flex align-items-start mb-3">
+                            <i class="fas fa-map-marker-alt text-muted me-2 mt-1"></i>
+                            <div>
+                                <p class="fw-medium mb-0">{{ related_property.address }}</p>
+                                <p class="text-muted small">{{ related_property.city }}, {{ related_property.state }}</p>
+                            </div>
+                        </div>
+                        <div class="property-features">
+                            <span><i class="fas fa-bed me-1"></i>{{ related_property.bedrooms }} beds</span>
+                            <span><i class="fas fa-bath me-1"></i>{{ related_property.bathrooms }} baths</span>
+                            <span><i class="fas fa-square me-1"></i>{{ related_property.square_feet|floatformat:0 }} sqft</span>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <a href="{% url 'listings:property_detail' related_property.id %}" class="btn btn-outline-primary flex-fill">View Details</a>
+                            <a href="{% url 'inquiries:property_inquiry' related_property.id %}" class="btn btn-primary flex-fill">Contact Agent</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center">
+                <p class="text-muted">No similar properties available at the moment.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

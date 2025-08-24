@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}New Listings - RealtyPro{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <h1 class="display-4 fw-bold mb-4">New Listings</h1>
+                <p class="lead mb-5">Discover the latest properties that have just hit the market</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- New Properties Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row g-4">
+            {% for property in properties %}
+            <div class="col-lg-4 col-md-6">
+                <div class="property-card">
+                    <div class="position-relative">
+                        <img src="{{ property.main_image_url }}" alt="{{ property.title }}" class="img-fluid">
+                        <div class="property-badge new">New</div>
+                        {% if property.is_featured %}
+                            <div class="property-badge" style="left: 5rem;">Featured</div>
+                        {% endif %}
+                        <button class="btn btn-light btn-sm position-absolute top-0 end-0 m-2">
+                            <i class="far fa-heart"></i>
+                        </button>
+                        <div class="position-absolute bottom-0 start-0 m-2">
+                            <span class="badge bg-white text-dark">{{ property.get_property_type_display }}</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="property-price">{{ property.formatted_price }}</h3>
+                        <div class="d-flex align-items-start mb-3">
+                            <i class="fas fa-map-marker-alt text-muted me-2 mt-1"></i>
+                            <div>
+                                <p class="fw-medium mb-0">{{ property.address }}</p>
+                                <p class="text-muted small">{{ property.city }}, {{ property.state }}</p>
+                            </div>
+                        </div>
+                        <div class="property-features">
+                            <span><i class="fas fa-bed me-1"></i>{{ property.bedrooms }} beds</span>
+                            <span><i class="fas fa-bath me-1"></i>{{ property.bathrooms }} baths</span>
+                            <span><i class="fas fa-square me-1"></i>{{ property.square_feet|floatformat:0 }} sqft</span>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <a href="{% url 'listings:property_detail' property.id %}" class="btn btn-outline-primary flex-fill">View Details</a>
+                            <a href="{% url 'inquiries:property_inquiry' property.id %}" class="btn btn-primary flex-fill">Contact Agent</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center">
+                <p class="text-muted">No new properties available at the moment.</p>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <!-- Pagination -->
+        {% if properties.has_other_pages %}
+        <nav aria-label="Property pagination" class="mt-5">
+            <ul class="pagination justify-content-center">
+                {% if properties.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ properties.previous_page_number }}">Previous</a>
+                    </li>
+                {% endif %}
+                
+                {% for num in properties.paginator.page_range %}
+                    {% if properties.number == num %}
+                        <li class="page-item active">
+                            <span class="page-link">{{ num }}</span>
+                        </li>
+                    {% elif num > properties.number|add:'-3' and num < properties.number|add:'3' %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+                
+                {% if properties.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ properties.next_page_number }}">Next</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h3 class="fw-bold text-primary mb-3">Want to Be First to See New Listings?</h3>
+                <p class="text-muted mb-4">Get notified about new properties as soon as they hit the market.</p>
+                <div class="d-flex flex-column flex-sm-row gap-3 justify-content-center">
+                    <a href="{% url 'inquiries:contact' %}" class="btn btn-primary">Get Notifications</a>
+                    <a href="tel:5551234567" class="btn btn-outline-primary">Call (555) 123-4567</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

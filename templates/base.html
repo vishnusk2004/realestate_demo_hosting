@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}RealtyPro - Your Premier Real Estate Partner{% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}Find your dream home with RealtyPro. Professional real estate services including buying, selling, home valuations, and mortgage calculations. Trusted experts serving your community.{% endblock %}">
+    <meta name="author" content="RealtyPro Real Estate">
+    
+    {% load static %}
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="{% block og_title %}RealtyPro - Your Premier Real Estate Partner{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}Find your dream home with RealtyPro. Professional real estate services with cutting-edge technology and personalized guidance.{% endblock %}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ request.build_absolute_uri }}">
+    <meta property="og:image" content="{% static 'images/og-image.jpg' %}">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{% block twitter_title %}RealtyPro - Your Premier Real Estate Partner{% endblock %}">
+    <meta name="twitter:description" content="{% block twitter_description %}Find your dream home with RealtyPro. Professional real estate services with cutting-edge technology.{% endblock %}">
+    
+    <!-- Preload Critical Resources -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@300;400;500;600;700&display=swap" as="style">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" as="script">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" as="script">
+
+    <!-- Google Fonts - Enhanced with Variable Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- GSAP CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/TextPlugin.min.js"></script>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}?v=2.0">
+    <link rel="stylesheet" href="{% static 'css/new-theme.css' %}?v=1.0">
+    
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- Custom Cursor -->
+    <div class="custom-cursor" id="customCursor"></div>
+    <div class="custom-cursor-follower" id="customCursorFollower"></div>
+    
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-content">
+            <div class="loading-logo">
+                <span class="text-gold">R</span>ealtyPro
+            </div>
+            <div class="loading-bar">
+                <div class="loading-progress"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg" id="mainNav">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'listings:home' %}">
+                <span class="text-gold">R</span>ealtyPro
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'listings:buy_home' %}">Buy</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'listings:sell_home' %}">Sell</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'property_value:home_value' %}">Home Value</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'listings:featured_listings' %}">Featured</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'mortgage:mortgage_calculator' %}">Calculator</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'blog:blog_list' %}">Blog</a>
+                    </li>
+                </ul>
+                
+                <div class="d-flex align-items-center">
+                    <div class="me-3 d-none d-md-block">
+                        <i class="fas fa-phone text-gold me-2"></i>
+                        <span class="text-dark fw-medium">(555) 123-4567</span>
+                    </div>
+                    <a href="{% url 'inquiries:contact' %}" class="btn btn-primary">Contact Us</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        {% if messages %}
+            <div class="container mt-3">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row py-5">
+                <div class="col-lg-4 mb-4">
+                    <div class="d-flex align-items-center mb-3">
+                        <span class="text-gold me-2" style="font-size: 1.5rem; font-weight: 600;">R</span>
+                        <span class="text-white" style="font-size: 1.5rem; font-weight: 400;">ealtyPro</span>
+                    </div>
+                    <p class="text-light mb-4">Your trusted partner in finding the perfect home. With over 15 years of experience, we're committed to making your real estate dreams a reality.</p>
+                    <div class="d-flex gap-3">
+                        <a href="#" class="text-light hover-gold"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-light hover-gold"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-light hover-gold"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-light hover-gold"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h3>Quick Links</h3>
+                    <ul class="list-unstyled">
+                        <li><a href="{% url 'listings:buy_home' %}">Buy a Home</a></li>
+                        <li><a href="{% url 'listings:sell_home' %}">Sell Your Home</a></li>
+                        <li><a href="{% url 'property_value:home_value' %}">Home Value Estimate</a></li>
+                        <li><a href="{% url 'listings:featured_listings' %}">Featured Properties</a></li>
+                        <li><a href="{% url 'mortgage:mortgage_calculator' %}">Mortgage Calculator</a></li>
+                        <li><a href="{% url 'blog:blog_list' %}">Blog & Market Insights</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h3>Our Services</h3>
+                    <ul class="list-unstyled">
+                        <li><span class="text-light">Residential Sales</span></li>
+                        <li><span class="text-light">Commercial Real Estate</span></li>
+                        <li><span class="text-light">Property Management</span></li>
+                        <li><span class="text-light">Investment Properties</span></li>
+                        <li><span class="text-light">First-Time Buyer Programs</span></li>
+                        <li><span class="text-light">Luxury Home Specialists</span></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-3 mb-4">
+                    <h3>Get In Touch</h3>
+                    <div class="mb-3">
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="fas fa-phone text-gold me-3"></i>
+                            <span class="text-light">(555) 123-4567</span>
+                        </div>
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="fas fa-envelope text-gold me-3"></i>
+                            <span class="text-light">info@realtypro.com</span>
+                        </div>
+                        <div class="d-flex align-items-start mb-2">
+                            <i class="fas fa-map-marker-alt text-gold me-3 mt-1"></i>
+                            <span class="text-light">123 Real Estate Blvd<br>Suite 100<br>Springfield, IL 62701</span>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-clock text-gold me-3"></i>
+                            <span class="text-light">Mon-Sun: 9AM-7PM</span>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h4 class="text-white mb-3">Stay Updated</h4>
+                        <div class="d-flex gap-2">
+                            <input type="email" class="form-control" placeholder="Your email" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white;">
+                            <button class="btn btn-primary">Subscribe</button>
+                        </div>
+                        <p class="text-light small mt-2">Get market updates and new listings delivered to your inbox.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <hr class="border-light">
+            
+            <div class="row py-3">
+                <div class="col-md-6">
+                    <p class="text-light small mb-0">© 2024 RealtyPro. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <div class="d-flex gap-4 justify-content-md-end">
+                        <a href="#" class="text-light small">Privacy Policy</a>
+                        <a href="#" class="text-light small">Terms of Service</a>
+                        <a href="#" class="text-light small">Fair Housing</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JS -->
+    <script src="{% static 'js/main.js' %}"></script>
+    
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

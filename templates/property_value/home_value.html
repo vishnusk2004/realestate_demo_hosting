@@ -1,0 +1,337 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home Value Estimate - RealtyPro{% endblock %}
+
+{% block content %}
+<!-- Home Value Header -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h1 class="display-4 fw-bold text-primary mb-3">Home Value Estimate</h1>
+                <p class="lead text-muted mb-4">Get an instant estimate of your home's current market value based on recent sales and market trends</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Home Value Form -->
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <!-- Form -->
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="fw-bold mb-4">Get Your Home Value Estimate</h2>
+                        
+                        <form id="home-value-form">
+                            <div class="mb-3">
+                                <label for="address" class="form-label">Property Address *</label>
+                                <input type="text" class="form-control" id="address" placeholder="123 Main Street, City, State ZIP" required>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="property-type" class="form-label">Property Type *</label>
+                                <select class="form-select" id="property-type" required>
+                                    <option value="">Select Property Type</option>
+                                    <option value="house">Single Family House</option>
+                                    <option value="apartment">Apartment</option>
+                                    <option value="condo">Condo</option>
+                                    <option value="townhouse">Townhouse</option>
+                                    <option value="land">Land</option>
+                                    <option value="commercial">Commercial</option>
+                                </select>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="bedrooms" class="form-label">Bedrooms</label>
+                                        <input type="number" class="form-control" id="bedrooms" placeholder="3" min="0">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="bathrooms" class="form-label">Bathrooms</label>
+                                        <input type="number" class="form-control" id="bathrooms" placeholder="2" min="0" step="0.5">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="square-feet" class="form-label">Square Feet</label>
+                                <input type="number" class="form-control" id="square-feet" placeholder="2,000">
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="year-built" class="form-label">Year Built</label>
+                                <input type="number" class="form-control" id="year-built" placeholder="1990" min="1800" max="2024">
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="condition" class="form-label">Property Condition</label>
+                                <select class="form-select" id="condition">
+                                    <option value="">Select Condition</option>
+                                    <option value="excellent">Excellent</option>
+                                    <option value="good">Good</option>
+                                    <option value="fair">Fair</option>
+                                    <option value="poor">Poor</option>
+                                </select>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary w-100">
+                                <i class="fas fa-search me-2"></i>Get Estimate
+                            </button>
+                        </form>
+                        
+                        <div class="text-center mt-3">
+                            <small class="text-muted">This is an estimate based on available market data. For a professional appraisal, contact our team.</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Results -->
+            <div class="col-lg-6">
+                <div id="value-results" style="display: none;">
+                    <div class="calculator-result">
+                        <div class="amount" id="estimated-value">$0</div>
+                        <div class="label">Estimated Home Value</div>
+                    </div>
+                    
+                    <div class="row g-3 mb-4">
+                        <div class="col-6">
+                            <div class="card text-center">
+                                <div class="card-body">
+                                    <div class="h4 fw-bold text-primary" id="value-range-low">$0</div>
+                                    <small class="text-muted">Low Estimate</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="card text-center">
+                                <div class="card-body">
+                                    <div class="h4 fw-bold text-primary" id="value-range-high">$0</div>
+                                    <small class="text-muted">High Estimate</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h5 class="fw-bold mb-3">Property Details</h5>
+                            <div class="row">
+                                <div class="col-6">
+                                    <p class="mb-2"><strong>Address:</strong></p>
+                                    <p class="mb-2"><strong>Property Type:</strong></p>
+                                    <p class="mb-2"><strong>Bedrooms:</strong></p>
+                                    <p class="mb-2"><strong>Bathrooms:</strong></p>
+                                </div>
+                                <div class="col-6">
+                                    <p class="mb-2" id="result-address">-</p>
+                                    <p class="mb-2" id="result-type">-</p>
+                                    <p class="mb-2" id="result-bedrooms">-</p>
+                                    <p class="mb-2" id="result-bathrooms">-</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <p class="mb-2"><strong>Square Feet:</strong></p>
+                                    <p class="mb-2"><strong>Year Built:</strong></p>
+                                    <p class="mb-2"><strong>Condition:</strong></p>
+                                </div>
+                                <div class="col-6">
+                                    <p class="mb-2" id="result-sqft">-</p>
+                                    <p class="mb-2" id="result-year">-</p>
+                                    <p class="mb-2" id="result-condition">-</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="fw-bold mb-3">Market Insights</h5>
+                            <div class="row">
+                                <div class="col-6">
+                                    <p class="mb-2"><strong>Price per Sq Ft:</strong></p>
+                                    <p class="mb-2"><strong>Market Trend:</strong></p>
+                                </div>
+                                <div class="col-6">
+                                    <p class="mb-2" id="price-per-sqft">-</p>
+                                    <p class="mb-2" id="market-trend">-</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Initial State -->
+                <div id="value-placeholder" class="text-center py-5">
+                    <i class="fas fa-home fa-3x text-muted mb-4"></i>
+                    <h4 class="fw-bold text-muted">Enter Your Property Details</h4>
+                    <p class="text-muted">Fill out the form to get an instant estimate of your home's current market value.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Information Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <h2 class="fw-bold text-center mb-5">How We Calculate Your Home Value</h2>
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h5 class="fw-bold mb-3"><i class="fas fa-chart-line text-primary me-2"></i>Recent Sales</h5>
+                                <p class="text-muted">We analyze recent sales of similar properties in your neighborhood to establish market trends and comparable values.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h5 class="fw-bold mb-3"><i class="fas fa-map-marker-alt text-primary me-2"></i>Location Factors</h5>
+                                <p class="text-muted">Property values are heavily influenced by location, including school districts, amenities, and neighborhood desirability.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h5 class="fw-bold mb-3"><i class="fas fa-ruler-combined text-primary me-2"></i>Property Features</h5>
+                                <p class="text-muted">Size, condition, age, and unique features all play a role in determining your home's market value.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h5 class="fw-bold mb-3"><i class="fas fa-trending-up text-primary me-2"></i>Market Conditions</h5>
+                                <p class="text-muted">Current market conditions, interest rates, and economic factors affect property values in your area.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h3 class="fw-bold text-primary mb-3">Need a Professional Appraisal?</h3>
+                <p class="text-muted mb-4">For a detailed, professional appraisal of your property, our certified appraisers can provide you with a comprehensive valuation report.</p>
+                <div class="d-flex flex-column flex-sm-row gap-3 justify-content-center">
+                    <a href="{% url 'inquiries:contact' %}" class="btn btn-primary">Schedule Appraisal</a>
+                    <a href="{% url 'listings:sell_home' %}" class="btn btn-outline-primary">Sell Your Home</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('home-value-form');
+    const results = document.getElementById('value-results');
+    const placeholder = document.getElementById('value-placeholder');
+    
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Get form values
+        const address = document.getElementById('address').value;
+        const propertyType = document.getElementById('property-type').value;
+        const bedrooms = parseInt(document.getElementById('bedrooms').value) || 0;
+        const bathrooms = parseFloat(document.getElementById('bathrooms').value) || 0;
+        const squareFeet = parseInt(document.getElementById('square-feet').value) || 0;
+        const yearBuilt = parseInt(document.getElementById('year-built').value) || 0;
+        const condition = document.getElementById('condition').value;
+        
+        // Simple estimation logic (in real app, this would use actual market data)
+        let basePrice = 200000; // Base price for a typical home
+        
+        // Adjust for property type
+        const typeMultipliers = {
+            'house': 1.0,
+            'apartment': 0.8,
+            'condo': 0.9,
+            'townhouse': 0.95,
+            'land': 0.3,
+            'commercial': 1.2
+        };
+        basePrice *= typeMultipliers[propertyType] || 1.0;
+        
+        // Adjust for bedrooms and bathrooms
+        basePrice += (bedrooms * 25000) + (bathrooms * 15000);
+        
+        // Adjust for square footage
+        if (squareFeet > 0) {
+            basePrice = (basePrice / 2000) * squareFeet; // Assume 2000 sqft as baseline
+        }
+        
+        // Adjust for year built
+        if (yearBuilt > 0) {
+            const age = 2024 - yearBuilt;
+            if (age < 10) basePrice *= 1.1;
+            else if (age < 20) basePrice *= 1.05;
+            else if (age < 30) basePrice *= 1.0;
+            else if (age < 50) basePrice *= 0.95;
+            else basePrice *= 0.9;
+        }
+        
+        // Adjust for condition
+        const conditionMultipliers = {
+            'excellent': 1.1,
+            'good': 1.0,
+            'fair': 0.9,
+            'poor': 0.8
+        };
+        basePrice *= conditionMultipliers[condition] || 1.0;
+        
+        // Add some randomness for realistic estimates
+        const randomFactor = 0.9 + (Math.random() * 0.2); // ±10% variation
+        basePrice *= randomFactor;
+        
+        // Calculate range
+        const lowEstimate = Math.round(basePrice * 0.9);
+        const highEstimate = Math.round(basePrice * 1.1);
+        const estimatedValue = Math.round(basePrice);
+        
+        // Calculate price per square foot
+        const pricePerSqFt = squareFeet > 0 ? Math.round(estimatedValue / squareFeet) : 0;
+        
+        // Update results
+        document.getElementById('estimated-value').textContent = '$' + estimatedValue.toLocaleString('en-US');
+        document.getElementById('value-range-low').textContent = '$' + lowEstimate.toLocaleString('en-US');
+        document.getElementById('value-range-high').textContent = '$' + highEstimate.toLocaleString('en-US');
+        document.getElementById('result-address').textContent = address;
+        document.getElementById('result-type').textContent = propertyType.charAt(0).toUpperCase() + propertyType.slice(1);
+        document.getElementById('result-bedrooms').textContent = bedrooms;
+        document.getElementById('result-bathrooms').textContent = bathrooms;
+        document.getElementById('result-sqft').textContent = squareFeet > 0 ? squareFeet.toLocaleString('en-US') : 'N/A';
+        document.getElementById('result-year').textContent = yearBuilt > 0 ? yearBuilt : 'N/A';
+        document.getElementById('result-condition').textContent = condition ? condition.charAt(0).toUpperCase() + condition.slice(1) : 'N/A';
+        document.getElementById('price-per-sqft').textContent = pricePerSqFt > 0 ? '$' + pricePerSqFt : 'N/A';
+        document.getElementById('market-trend').textContent = 'Stable';
+        
+        // Show results
+        results.style.display = 'block';
+        placeholder.style.display = 'none';
+    });
+});
+</script>
+{% endblock %}

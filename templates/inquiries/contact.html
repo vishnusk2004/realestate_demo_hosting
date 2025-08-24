@@ -1,0 +1,164 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Contact Us - RealtyPro{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <h1 class="display-4 fw-bold mb-4">Contact Us</h1>
+                <p class="lead mb-5">Get in touch with our team of real estate experts</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <h2 class="fw-bold text-primary mb-4">Get In Touch</h2>
+                        <p class="text-muted mb-4">Ready to start your real estate journey? Contact us today and let our experienced team help you achieve your goals.</p>
+                        
+                        <div class="mb-4">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="service-icon me-3">
+                                    <i class="fas fa-phone"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-1">Phone</h6>
+                                    <p class="text-muted mb-0">(555) 123-4567</p>
+                                </div>
+                            </div>
+                            
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="service-icon me-3">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-1">Email</h6>
+                                    <p class="text-muted mb-0">info@realtypro.com</p>
+                                </div>
+                            </div>
+                            
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="service-icon me-3">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-1">Office</h6>
+                                    <p class="text-muted mb-0">123 Real Estate Blvd<br>Suite 100<br>Springfield, IL 62701</p>
+                                </div>
+                            </div>
+                            
+                            <div class="d-flex align-items-center">
+                                <div class="service-icon me-3">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-1">Hours</h6>
+                                    <p class="text-muted mb-0">Monday - Sunday: 9AM - 7PM</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <h5 class="fw-bold mb-3">Follow Us</h5>
+                            <div class="d-flex gap-2">
+                                <a href="#" class="btn btn-outline-primary"><i class="fab fa-facebook-f"></i></a>
+                                <a href="#" class="btn btn-outline-primary"><i class="fab fa-instagram"></i></a>
+                                <a href="#" class="btn btn-outline-primary"><i class="fab fa-twitter"></i></a>
+                                <a href="#" class="btn btn-outline-primary"><i class="fab fa-linkedin-in"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-6">
+                        <div class="contact-form">
+                            <h3 class="h5 fw-bold mb-4">Send Us a Message</h3>
+                            
+                            <form method="POST">
+                                {% csrf_token %}
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label">First Name *</label>
+                                        {{ form.first_name }}
+                                        {% if form.first_name.errors %}
+                                            <div class="text-danger small">{{ form.first_name.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Last Name *</label>
+                                        {{ form.last_name }}
+                                        {% if form.last_name.errors %}
+                                            <div class="text-danger small">{{ form.last_name.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-12">
+                                        <label class="form-label">Email *</label>
+                                        {{ form.email }}
+                                        {% if form.email.errors %}
+                                            <div class="text-danger small">{{ form.email.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-12">
+                                        <label class="form-label">Phone *</label>
+                                        {{ form.phone }}
+                                        {% if form.phone.errors %}
+                                            <div class="text-danger small">{{ form.phone.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-12">
+                                        <label class="form-label">How can we help you? *</label>
+                                        {{ form.message }}
+                                        {% if form.message.errors %}
+                                            <div class="text-danger small">{{ form.message.errors.0 }}</div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-12">
+                                        <button type="submit" class="btn btn-primary w-100">Send Message</button>
+                                    </div>
+                                </div>
+                            </form>
+                            
+                            <p class="text-muted small mt-3">
+                                * Required fields. We'll get back to you within 24 hours.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Map Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center mb-4">
+                <h2 class="fw-bold text-primary mb-3">Visit Our Office</h2>
+                <p class="text-muted">Stop by our office to meet our team in person</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="bg-white rounded shadow-sm p-4 text-center">
+                    <div class="service-icon mx-auto mb-3">
+                        <i class="fas fa-map"></i>
+                    </div>
+                    <h5 class="mb-2">123 Real Estate Blvd, Suite 100</h5>
+                    <p class="text-muted mb-0">Springfield, IL 62701</p>
+                    <p class="text-muted">Free parking available</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

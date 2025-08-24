@@ -1,0 +1,316 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Buy a Home - RealtyPro{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section buy-hero">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10 text-center">
+                <h1 class="display-1 mb-4">Find Your Dream Home</h1>
+                <p class="lead mb-5">Browse our extensive collection of properties and find the perfect place to call home</p>
+                
+                <!-- Enhanced Search Form -->
+                <div class="hero-search enhanced-search">
+                    <form method="GET" action="{% url 'listings:property_search' %}" id="property-search-form">
+                        <div class="row g-4 align-items-end">
+                            <div class="col-lg-3 col-md-6">
+                                <label class="form-label">Property Type</label>
+                                <select name="property_type" class="form-select">
+                                    <option value="">All Property Types</option>
+                                    <option value="house">Single Family Home</option>
+                                    <option value="apartment">Apartment</option>
+                                    <option value="condo">Condominium</option>
+                                    <option value="townhouse">Townhouse</option>
+                                    <option value="land">Land</option>
+                                    <option value="commercial">Commercial</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-3 col-md-6">
+                                <label class="form-label">Location</label>
+                                <input type="text" name="location" class="form-control" placeholder="Enter city, state, or ZIP code">
+                            </div>
+                            <div class="col-lg-2 col-md-6">
+                                <label class="form-label">Price Range</label>
+                                <select name="price_range" class="form-select">
+                                    <option value="">Any Price</option>
+                                    <option value="0-200000">Under $200K</option>
+                                    <option value="200000-400000">$200K - $400K</option>
+                                    <option value="400000-600000">$400K - $600K</option>
+                                    <option value="600000-800000">$600K - $800K</option>
+                                    <option value="800000-1000000">$800K - $1M</option>
+                                    <option value="1000000+">$1M+</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-2 col-md-6">
+                                <label class="form-label">Bedrooms</label>
+                                <select name="bedrooms" class="form-select">
+                                    <option value="">Any</option>
+                                    <option value="1">1+ Bedrooms</option>
+                                    <option value="2">2+ Bedrooms</option>
+                                    <option value="3">3+ Bedrooms</option>
+                                    <option value="4">4+ Bedrooms</option>
+                                    <option value="5">5+ Bedrooms</option>
+                                </select>
+                            </div>
+                            <div class="col-lg-2 col-md-12">
+                                <label class="form-label">&nbsp;</label>
+                                <button type="submit" class="btn btn-primary w-100">
+                                    <i class="fas fa-search me-2"></i>Search
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Properties Section -->
+<section class="py-5">
+    <div class="container">
+        <!-- Section Header -->
+        <div class="section-header-fixed">
+            <div class="section-badge-fixed">
+                <i class="fas fa-home"></i>
+                Available Properties
+            </div>
+            <h2 class="section-title-fixed">Properties for Sale</h2>
+            <p class="section-subtitle-fixed">Discover exceptional properties that match your lifestyle and budget. Each listing is carefully curated to ensure quality and value.</p>
+        </div>
+        
+        <!-- Properties Grid -->
+        <div class="properties-grid-fixed">
+            {% for property in properties %}
+            <div class="property-card-fixed">
+                <div class="property-image-fixed">
+                    <img src="{{ property.main_image_url }}" alt="{{ property.title }}">
+                    <div class="property-overlay-fixed">
+                        <div class="property-badges-fixed">
+                            {% if property.is_featured %}
+                                <div class="badge-featured-fixed">Featured</div>
+                            {% endif %}
+                            {% if property.is_new_listing %}
+                                <div class="badge-new-fixed">New</div>
+                            {% endif %}
+                        </div>
+                        <button class="favorite-btn-fixed" title="Add to Favorites">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="property-content-fixed">
+                    <div class="property-price-fixed">{{ property.formatted_price }}</div>
+                    <h3 class="property-title-fixed">{{ property.address }}</h3>
+                    <div class="property-location-fixed">
+                        <i class="fas fa-map-marker-alt"></i>
+                        {{ property.city }}, {{ property.state }}
+                    </div>
+                    <div class="property-features-fixed">
+                        <div class="feature-fixed">
+                            <i class="fas fa-bed"></i>
+                            <span>{{ property.bedrooms }} beds</span>
+                        </div>
+                        <div class="feature-fixed">
+                            <i class="fas fa-bath"></i>
+                            <span>{{ property.bathrooms }} baths</span>
+                        </div>
+                        <div class="feature-fixed">
+                            <i class="fas fa-square"></i>
+                            <span>{{ property.square_feet|floatformat:0 }} sqft</span>
+                        </div>
+                    </div>
+                    <div class="property-actions-fixed">
+                        <a href="{% url 'listings:property_detail' property.id %}" class="btn-view-fixed">View Details</a>
+                        <a href="{% url 'inquiries:property_inquiry' property.id %}" class="btn-contact-fixed">Contact</a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <!-- Sample Properties for Demo -->
+            <div class="property-card-fixed">
+                <div class="property-image-fixed">
+                    <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800&h=600&fit=crop" alt="Luxury Home">
+                    <div class="property-overlay-fixed">
+                        <div class="property-badges-fixed">
+                            <div class="badge-featured-fixed">Featured</div>
+                        </div>
+                        <button class="favorite-btn-fixed" title="Add to Favorites">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="property-content-fixed">
+                    <div class="property-price-fixed">$850,000</div>
+                    <h3 class="property-title-fixed">Modern Luxury Villa</h3>
+                    <div class="property-location-fixed">
+                        <i class="fas fa-map-marker-alt"></i>
+                        Beverly Hills, CA
+                    </div>
+                    <div class="property-features-fixed">
+                        <div class="feature-fixed">
+                            <i class="fas fa-bed"></i>
+                            <span>4 beds</span>
+                        </div>
+                        <div class="feature-fixed">
+                            <i class="fas fa-bath"></i>
+                            <span>3 baths</span>
+                        </div>
+                        <div class="feature-fixed">
+                            <i class="fas fa-square"></i>
+                            <span>3,200 sqft</span>
+                        </div>
+                    </div>
+                    <div class="property-actions-fixed">
+                        <a href="#" class="btn-view-fixed">View Details</a>
+                        <a href="#" class="btn-contact-fixed">Contact</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="property-card-fixed">
+                <div class="property-image-fixed">
+                    <img src="https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=800&h=600&fit=crop" alt="Contemporary Home">
+                    <div class="property-overlay-fixed">
+                        <div class="property-badges-fixed">
+                            <div class="badge-new-fixed">New</div>
+                        </div>
+                        <button class="favorite-btn-fixed" title="Add to Favorites">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="property-content-fixed">
+                    <div class="property-price-fixed">$650,000</div>
+                    <h3 class="property-title-fixed">Contemporary Family Home</h3>
+                    <div class="property-location-fixed">
+                        <i class="fas fa-map-marker-alt"></i>
+                        Santa Monica, CA
+                    </div>
+                    <div class="property-features-fixed">
+                        <div class="feature-fixed">
+                            <i class="fas fa-bed"></i>
+                            <span>3 beds</span>
+                        </div>
+                        <div class="feature-fixed">
+                            <i class="fas fa-bath"></i>
+                            <span>2.5 baths</span>
+                        </div>
+                        <div class="feature-fixed">
+                            <i class="fas fa-square"></i>
+                            <span>2,800 sqft</span>
+                        </div>
+                    </div>
+                    <div class="property-actions-fixed">
+                        <a href="#" class="btn-view-fixed">View Details</a>
+                        <a href="#" class="btn-contact-fixed">Contact</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="property-card-fixed">
+                <div class="property-image-fixed">
+                    <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&h=600&fit=crop" alt="Elegant Mansion">
+                    <div class="property-overlay-fixed">
+                        <div class="property-badges-fixed">
+                            <div class="badge-featured-fixed">Featured</div>
+                        </div>
+                        <button class="favorite-btn-fixed" title="Add to Favorites">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="property-content-fixed">
+                    <div class="property-price-fixed">$1,200,000</div>
+                    <h3 class="property-title-fixed">Elegant Waterfront Estate</h3>
+                    <div class="property-location-fixed">
+                        <i class="fas fa-map-marker-alt"></i>
+                        Malibu, CA
+                    </div>
+                    <div class="property-features-fixed">
+                        <div class="feature-fixed">
+                            <i class="fas fa-bed"></i>
+                            <span>5 beds</span>
+                        </div>
+                        <div class="feature-fixed">
+                            <i class="fas fa-bath"></i>
+                            <span>4 baths</span>
+                        </div>
+                        <div class="feature-fixed">
+                            <i class="fas fa-square"></i>
+                            <span>4,500 sqft</span>
+                        </div>
+                    </div>
+                    <div class="property-actions-fixed">
+                        <a href="#" class="btn-view-fixed">View Details</a>
+                        <a href="#" class="btn-contact-fixed">Contact</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <!-- Pagination -->
+        {% if properties.has_other_pages %}
+        <nav aria-label="Property pagination" class="mt-5">
+            <ul class="pagination justify-content-center">
+                {% if properties.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ properties.previous_page_number }}{% if request.GET.property_type %}&property_type={{ request.GET.property_type }}{% endif %}{% if request.GET.location %}&location={{ request.GET.location }}{% endif %}{% if request.GET.price_range %}&price_range={{ request.GET.price_range }}{% endif %}">
+                            <i class="fas fa-chevron-left me-1"></i>Previous
+                        </a>
+                    </li>
+                {% endif %}
+                
+                {% for num in properties.paginator.page_range %}
+                    {% if properties.number == num %}
+                        <li class="page-item active">
+                            <span class="page-link">{{ num }}</span>
+                        </li>
+                    {% elif num > properties.number|add:'-3' and num < properties.number|add:'3' %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ num }}{% if request.GET.property_type %}&property_type={{ request.GET.property_type }}{% endif %}{% if request.GET.location %}&location={{ request.GET.location }}{% endif %}{% if request.GET.price_range %}&price_range={{ request.GET.price_range }}{% endif %}">{{ num }}</a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+                
+                {% if properties.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ properties.next_page_number }}{% if request.GET.property_type %}&property_type={{ request.GET.property_type }}{% endif %}{% if request.GET.location %}&location={{ request.GET.location }}{% endif %}{% if request.GET.price_range %}&price_range={{ request.GET.price_range }}{% endif %}">
+                            Next<i class="fas fa-chevron-right ms-1"></i>
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section-fixed">
+    <div class="container">
+        <div class="cta-content-fixed text-center">
+            <div class="cta-badge-fixed">
+                <i class="fas fa-user-tie"></i>
+                Expert Assistance
+            </div>
+            <h3 class="cta-title-fixed">Need Help Finding Your Perfect Home?</h3>
+            <p class="cta-subtitle-fixed">Our experienced real estate agents are here to help you find the perfect property that meets your needs and budget. Get personalized assistance and expert guidance throughout your home buying journey.</p>
+            <div class="cta-actions-fixed">
+                <a href="{% url 'inquiries:contact' %}" class="btn-secondary-fixed">
+                    <i class="fas fa-user-tie"></i>
+                    Contact an Agent
+                </a>
+                <a href="tel:5551234567" class="btn-primary-fixed">
+                    <i class="fas fa-phone"></i>
+                    Call (555) 123-4567
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
